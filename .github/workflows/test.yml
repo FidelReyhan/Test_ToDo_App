@@ -23,6 +23,20 @@ jobs:
         run: npm install
         working-directory: frontend
 
+      - name: Build project
+        run: npm run build
+        working-directory: frontend
+
+
+      - name: Serve build locally
+        run: npx serve dist &
+        working-directory: frontend
+
+      - name: Run UI tests
+        run: npx playwright test
+        working-directory: frontend
+
+
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
         working-directory: frontend
@@ -33,7 +47,7 @@ jobs:
 
       - name: Start backend server
         working-directory: ./backend
-        run: node app.js &
+        run: node setup.js && node app.js
 
 
       - name: Wait for backend to be ready
