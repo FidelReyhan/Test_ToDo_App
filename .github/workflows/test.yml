@@ -43,7 +43,7 @@ jobs:
         run: npm install -g newman
 
       - name: Run UI Tests (Playwright)
-        run: npm run test:ui
+        run: npx playwright test
         working-directory: frontend
 
       - name: Upload Playwright Report
