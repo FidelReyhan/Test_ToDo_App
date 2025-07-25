@@ -27,6 +27,18 @@ jobs:
         run: npx playwright install --with-deps
         working-directory: frontend
 
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: npm install
+
+      - name: Start backend server
+        working-directory: ./backend
+        run: node app.js &
+
+
+      - name: Wait for backend to be ready
+        run: sleep 10
+
       - name: Install Newman
         run: npm install -g newman
 
