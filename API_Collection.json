@@ -1,0 +1,346 @@
+{
+	"info": {
+		"_postman_id": "60c62f1f-069f-44e2-a1fe-6d41a6297387",
+		"name": "Todo API Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29553602"
+	},
+	"item": [
+		{
+			"name": "Create Todo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User Created\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"let response = pm.response.json();",
+							"pm.environment.set(\"todo_name\", response.data.text)",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"text\": \"Belajar Node.js\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/todo/items",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"todo",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User Created\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"{{$randomFullName}}\",\n  \"password\": \"password1\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/user/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    });",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"    });",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"user1\",\n  \"password\": \"password1\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Todos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get All Todo status is 200 ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Created item exists in list\", function () {",
+							"    const response = pm.response.json();",
+							"    const expectedName = pm.environment.get(\"todo_name\");",
+							"    const found = response.data.some(item =>",
+							"        item.text === expectedName",
+							"    );",
+							"    pm.expect(found).to.be.true;",
+							"});",
+							"",
+							"let response = pm.response.json();",
+							"pm.environment.set(\"todo_id_first\", response.data[0].ID);",
+							"console.log(response.data[0].ID);",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/todo/items",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"todo",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Todo by ID",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.sendRequest('http://localhost:4000/items', function (err, res) {",
+							"    if (err) {",
+							"        console.error(\"Error:\", err);",
+							"        return;",
+							"    }",
+							"",
+							"    // Ambil item pertama dari array",
+							"    let items = res.json();",
+							"    let id = items[0]?.id;",
+							"",
+							"    if (id) {",
+							"        // Simpan ke variable environment bernama 'itemId'",
+							"        pm.environment.set(\"itemId\", id);",
+							"        console.log(\"ID disimpan:\", id);",
+							"    } else {",
+							"        console.error(\"Tidak ada ID yang ditemukan!\");",
+							"    }",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response contains expected fields\", function () {",
+							"    let json = pm.response.json();",
+							"    pm.expect(json).to.have.property(\"id\");",
+							"    pm.expect(json).to.have.property(\"name\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/todo/items/{{todo_id_first}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"todo",
+						"items",
+						"{{todo_id_first}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Todo by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Success Delete User\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Todo item not found\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Deleted from the list\", function () {",
+							"    const response = pm.response.json();",
+							"    const expectedID = pm.environment.get(\"todo_id_first\");",
+							"    const found = response.data.some(item =>",
+							"        item.data.ID === expectedID",
+							"    );",
+							"    pm.expect(found).to.be.false;",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/todo/items/{{todo_id_first}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"todo",
+						"items",
+						"{{todo_id_first}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
