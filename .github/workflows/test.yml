@@ -36,10 +36,6 @@ jobs:
         run: npx playwright install --with-deps
         working-directory: frontend
 
-      - name: Run UI tests
-        run: npx playwright test
-        working-directory: frontend
-
       - name: Install backend dependencies
         working-directory: ./backend
         run: npm install
@@ -55,7 +51,7 @@ jobs:
       - name: Install Newman
         run: npm install -g newman
 
-      - name: Run UI Tests (Playwright)
+      - name: Run UI tests
         run: npx playwright test
         working-directory: frontend
 
