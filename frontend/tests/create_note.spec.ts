@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { loginWithValidCredentials } from '../utils/login';
 import { createMultipleTodos } from '../utils/create';
+import { deleteAllTodos } from '../utils/delete';
 
 
 test('Input Note', async ({ page }) => {
@@ -10,6 +11,7 @@ test('Input Note', async ({ page }) => {
     // await page.waitForTimeout(500);
 
     // expect(await page.screenshot()).toMatchSnapshot('result-create-tc-1.png');
+    await deleteAllTodos(page);
 
   });
 
@@ -24,6 +26,8 @@ test('Submit note and enter', async ({ page }) => {
     // await page.waitForTimeout(500);
 
     // expect(await page.screenshot()).toMatchSnapshot('result-create-tc-2.png');
+    await deleteAllTodos(page);
+
 
   });
 
@@ -38,6 +42,8 @@ test('Submit note and click button send', async ({ page }) => {
     // await page.waitForTimeout(500);
 
     // expect(await page.screenshot()).toMatchSnapshot('result-create-tc-3.png');
+    await deleteAllTodos(page);
+
 
   });
 
@@ -52,6 +58,7 @@ test('Submit note and click button send', async ({ page }) => {
     // await page.waitForTimeout(500);
 
     // expect(await page.screenshot()).toMatchSnapshot('result-create-tc-4.png');
+    await deleteAllTodos(page);
 
 
   });
