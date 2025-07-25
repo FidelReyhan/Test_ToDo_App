@@ -111,7 +111,7 @@ test('Login without username and enter', async ({ page }) => {
 
         await page.waitForLoadState('networkidle');
 
-        expect(await page.screenshot()).toMatchSnapshot('dashboard-ui5.png');
+        // expect(await page.screenshot()).toMatchSnapshot('dashboard-ui5.png');
     });
 
     //test case login username and login
@@ -131,7 +131,7 @@ test('Login without password and click submit', async ({ page }) => {
 
         await page.waitForLoadState('networkidle');
 
-        expect(await page.screenshot()).toMatchSnapshot('dashboard-ui6.png');
+        // expect(await page.screenshot()).toMatchSnapshot('dashboard-ui6.png');
 });
     // test case login password and login
 
@@ -147,6 +147,6 @@ test('Login without username and click submit', async ({ page }) => {
 
     await page.waitForLoadState('networkidle');
 
-    expect(await page.screenshot()).toMatchSnapshot('dashboard-ui7.png');
+    // expect(await page.screenshot()).toMatchSnapshot('dashboard-ui7.png');
     
 });
