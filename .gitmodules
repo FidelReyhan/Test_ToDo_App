@@ -1,0 +1,6 @@
+[submodule "noted-pak"]
+	path = noted-pak
+	url = https://github.com/syafiqabdillah/noted-pak.git
+[submodule "noted-pak-api"]
+	path = noted-pak-api
+	url = https://github.com/syafiqabdillah/noted-pak-api.git
