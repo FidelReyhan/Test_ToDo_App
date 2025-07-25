@@ -32,13 +32,12 @@ jobs:
         run: npx serve dist &
         working-directory: frontend
 
-      - name: Run UI tests
-        run: npx playwright test
-        working-directory: frontend
-
-
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+        working-directory: frontend
+
+      - name: Run UI tests
+        run: npx playwright test
         working-directory: frontend
 
       - name: Install backend dependencies
