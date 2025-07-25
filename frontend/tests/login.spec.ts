@@ -16,11 +16,13 @@ test('Login with valid credentials', async ({ page }) => {
   await expect(page.getByText(`noted, ${username}`)).toBeVisible();
 // Tunggu sampai layoutnya stabil sebelum ambil screenshot
     await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(5000);
 
 // Ambil snapshot halaman atau bagian spesifik
-  expect(await page.screenshot()).toMatchSnapshot('dashboard-ui.png');
       // Stop coverage
   const jsCoverage = await page.coverage.stopJSCoverage();
+  expect(await page.screenshot()).toMatchSnapshot('dashboard-ui.png');
+
 
   // // Simpan hasil coverage ke file
   // const fs = require('fs');
@@ -42,6 +44,8 @@ test('Login with invalid credentials and dismiss', async ({ page }) => {
       });
     
       await page.click('button:has-text("Login")');
+      await page.waitForTimeout(300);
+
       await page.waitForLoadState('networkidle');
 
       expect(await page.screenshot()).toMatchSnapshot('dashboard-ui2.png');
@@ -62,6 +66,8 @@ test('Login with invalid credentials and accept', async ({ page }) => {
         });
         
         await page.click('button:has-text("Login")');
+        await page.waitForTimeout(300);
+
             await page.waitForLoadState('networkidle');
 
         expect(await page.screenshot()).toMatchSnapshot('dashboard-ui3.png');
@@ -81,6 +87,8 @@ test('Login without password and enter', async ({ page }) => {
                 });
                 
                 await page.keyboard.press('Enter');
+                await page.waitForTimeout(300);
+
                 await page.waitForLoadState('networkidle');
 
                 expect(await page.screenshot()).toMatchSnapshot('dashboard-ui4.png');
@@ -99,6 +107,8 @@ test('Login without username and enter', async ({ page }) => {
             });
                     
         await page.keyboard.press('Enter');
+        await page.waitForTimeout(300);
+
         await page.waitForLoadState('networkidle');
 
         expect(await page.screenshot()).toMatchSnapshot('dashboard-ui5.png');
@@ -117,6 +127,8 @@ test('Login without password and click submit', async ({ page }) => {
             
         const loginButton = page.locator('button:has-text("Login")');
         await expect(loginButton).toBeDisabled();
+        await page.waitForTimeout(300);
+
         await page.waitForLoadState('networkidle');
 
         expect(await page.screenshot()).toMatchSnapshot('dashboard-ui6.png');
@@ -131,6 +143,8 @@ test('Login without username and click submit', async ({ page }) => {
                 
     const loginButton = page.locator('button:has-text("Login")');
     await expect(loginButton).toBeDisabled();
+    await page.waitForTimeout(300);
+
     await page.waitForLoadState('networkidle');
 
     expect(await page.screenshot()).toMatchSnapshot('dashboard-ui7.png');

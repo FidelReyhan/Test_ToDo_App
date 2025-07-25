@@ -11,7 +11,7 @@ let sql;
 
 userRouter.use(bodyParser.json());
 
-userRouter.post("/", (req, res) => {
+userRouter.post("/login", (req, res) => {
   const { username, password } = req.body;
   sql = `SELECT * FROM user WHERE username = ? AND password = ?`;
 

@@ -35,7 +35,7 @@ todoRouter.post("/items", (req, res) => {
 // Get Todo List
 todoRouter.get("/items", (req, res) => {
   try {
-    sql = `SELECT * FROM todo`;
+    sql = 'SELECT * FROM todo ORDER BY ID DESC';
     db.all(sql, [], (err, rows) => {
       if (err) {
         return res

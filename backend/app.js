@@ -3,11 +3,13 @@ const res = require("express/lib/response");
 const app = express();
 const port = 4000;
 
+const cors = require("cors");
 const userRouter = require("./router/userRouter");
 const todoRouter = require("./router/todoRouter");
+app.use(cors());
 
-app.use("/", todoRouter);
-app.use("/login", userRouter);
+app.use("/todo", todoRouter);
+app.use("/user", userRouter);
 
 app.listen(port, (err) => {
   if (err) return console.error("Error starting server: " + err.message);

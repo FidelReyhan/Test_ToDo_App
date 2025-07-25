@@ -1,6 +1,9 @@
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import { useState, type FC } from "react";
 import { NavLink, useNavigate } from "react-router";
-import { useUserStore } from "../../store/user";
+import { API_BASE_URL } from "../../constants";
+import type { User, UserCredentials } from "../../type";
 import { setCookie } from "../../utils/cookie";
 import { Button } from "../atom/Button";
 import { Card } from "../atom/Card";
@@ -18,31 +21,43 @@ const Login: FC<Props> = ({ isRegister }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
-  const { findUser } = useUserStore();
+  const loginMutation = useMutation<User, Error, UserCredentials>({
+    mutationFn: async (credentials) => {
+      return await axios.post(`${API_BASE_URL}/user/login`, credentials);
+    },
+  });
+
+  const registerMutation = useMutation<User, Error, UserCredentials>({
+    mutationFn: async (credentials) => {
+      return await axios.post(`${API_BASE_URL}/user/register`, credentials);
+    },
+  });
 
   function clearForm() {
     setUsername("");
     setPassword("");
   }
 
-  function handleRegister(event: React.FormEvent) {
+  async function handleRegister(event: React.FormEvent) {
     event.preventDefault();
     if (!username || !password) {
       alert("Username and password cannot be empty");
       return;
     }
-    const user = findUser(username, password);
-    if (user) {
-      alert("User already exists");
-      return;
+
+    const newUser = await registerMutation.mutateAsync({ username, password });
+    if (newUser) {
+      setCookie("username", username);
+      clearForm();
+      navigate("/");
     }
-    useUserStore.getState().addUser({ id: 0, username, password });
+
     setCookie("username", username);
     clearForm();
     navigate("/");
   }
 
-  function handleLogin(event: React.FormEvent) {
+  async function handleLogin(event: React.FormEvent) {
     event.preventDefault();
     if (isRegister) {
       return handleRegister(event);
@@ -51,7 +66,7 @@ const Login: FC<Props> = ({ isRegister }) => {
       alert("Username and password cannot be empty");
       return;
     }
-    const user = findUser(username, password);
+    const user = await loginMutation.mutateAsync({ username, password });
     if (user) {
       setCookie("username", username);
       return navigate("/");

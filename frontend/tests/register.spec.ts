@@ -8,6 +8,8 @@ test('Open register page', async ({ page }) => {
     await page.getByText('Register').click();
     await page.waitForLoadState('networkidle');
 
+    await page.waitForTimeout(300);
+
     expect(await page.screenshot()).toMatchSnapshot('result-register-tc-1.png');
 
   });
@@ -18,7 +20,7 @@ test('Register new user', async ({ page }) => {
     const newPassword = "tes1"
 
     await page.getByText('Register').click();
-
+    await page.getByPlaceholder('Username').fill(newUsername);
     await page.locator('input#password').fill('newPassword');
 
     await page.locator('input#confirm-password').fill('newPassword');
@@ -29,6 +31,9 @@ test('Register new user', async ({ page }) => {
         } else {
     // Kalau tombol Register masih disable, tekan Enter dari input terakhir
     await page.getByPlaceholder('Confirm Password').press('Enter');
+
+    await page.waitForTimeout(300);
+
     expect(await page.screenshot()).toMatchSnapshot('result-register-tc-2.png');
 
 
@@ -41,12 +46,16 @@ test('Register new user and click enter', async ({ page }) => {
         const newPassword = "tes1"
     
         await page.getByText('Register').click();
-    
+        await page.getByPlaceholder('Username').fill(newUsername);
+
         await page.locator('input#password').fill('newPassword');
     
         await page.locator('input#confirm-password').fill('newPassword');
     
         await page.getByPlaceholder('Confirm Password').press('Enter');
+
+        await page.waitForTimeout(300);
+
         expect(await page.screenshot()).toMatchSnapshot('result-register-tc-3.png');
 
     
@@ -59,7 +68,8 @@ test('Register new user and click register', async ({ page }) => {
         const newPassword = "tes1"
     
         await page.getByText('Register').click();
-    
+        await page.getByPlaceholder('Username').fill(newUsername);
+
         await page.locator('input#password').fill('newPassword');
     
         await page.locator('input#confirm-password').fill('newPassword');
@@ -67,6 +77,9 @@ test('Register new user and click register', async ({ page }) => {
         await page.getByPlaceholder('Confirm Password').press('Enter');
         const registerButton = page.getByRole('button', { name: 'Register' });
         await expect(registerButton).toBeDisabled();
+
+        await page.waitForTimeout(300);
+
         expect(await page.screenshot()).toMatchSnapshot('result-register-tc-4.png');
 
         
