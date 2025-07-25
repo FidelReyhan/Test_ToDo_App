@@ -31,7 +31,8 @@ jobs:
         run: npm install -g newman
 
       - name: Run API Tests via Postman
-        run: newman run API_Colection.json
+        run: newman run API_Collection.json
+        
 
       - name: Run UI Tests (Playwright)
         run: npm run test:ui
